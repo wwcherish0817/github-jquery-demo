@@ -1,0 +1,89 @@
+<!DOCTYPE>
+<html>
+ <head>
+  <title> New Document </title>
+  <meta charset="utf-8">
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+  <style type="text/css">
+	.divone{width:300px;height:300px;border:1px solid black;position:relative;overflow:hidden;}
+	.div_small{position:absolute;width:100%;height:100%;left:0px;top:0px;line-height:300px;text-align:center;font-size:50px;background:#fff;}
+  .div_small img{width:100%;height:100%;}
+  </style>
+ </head>
+
+ <body>
+	<div class="divone">
+		<div class="div_small"><img src="1.jpg"></div>
+		<div class="div_small"><img src="2.jpg"></div>
+		<div class="div_small"><img src="3.jpg"></div>
+	</div>
+	
+ </body>
+ <script type="text/javascript">
+ <!--
+	$(function(){
+		
+		$(".divone").mouseenter(function(){
+				if ($(this).attr("kaiguan") == 0)
+				{
+					$(this).attr("kaiguan",1);
+					gundong2();
+					return;
+				}
+				else{
+					$(this).attr("kaiguan",0);
+					gundong1();
+					return
+				}
+			
+		})
+    $(".divone").click(function(){
+				if ($(this).attr("kaiguan") == 0)
+				{
+					$(this).attr("kaiguan",1);
+					gundong2();
+					return;
+				}
+				else{
+					$(this).attr("kaiguan",0);
+					gundong1();
+					return
+				}
+			
+		})
+		function gundong1(){
+			 var div_num1 = $(this).find($(".div_small"));
+       var bbb = div_num1.length -1;
+			 var aaa = div_num1.eq(bbb);
+			 var aaa_height = aaa.height();
+			 aaa.animate({
+					top : aaa_height, 
+					opacity: 0.5 ,
+			 },500,function donghua(){
+			   $(this).prependTo($(this).parent());
+				 $(this).css("top","0px");
+				 $(this).css("opacity","1")	
+		   })
+		}
+		function gundong2(){
+			 var div_num1 = $(this).find($(".div_small"));
+			 var bbb = div_num1.length -1;
+			 var aaa = div_num1.eq(bbb);
+			 var aaa_width = aaa.width();
+			 aaa.animate({
+					left : -(aaa_width), 
+					opacity: 0.5 ,
+			 },500,function donghua(){
+			   $(this).prependTo($(this).parent());
+				 $(this).css("left","0px");
+				 $(this).css("opacity","1")		
+		   })
+		}
+	})
+ //-->
+ </script>
+</html>

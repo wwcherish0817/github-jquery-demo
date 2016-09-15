@@ -1,0 +1,108 @@
+<!DOCTYPE>
+<html>
+<head>
+<title> New Document </title>
+ <meta charset="UTF-8">
+ <meta name="Generator" content="EditPlus">
+ <meta name="Author" content="">
+ <meta name="Keywords" content="">
+ <meta name="Description" content="">
+ <link rel="stylesheet" type="text/css" href="">
+ <script type="text/javascript" src="jquery.js"></script>
+ <style type="text/css">
+
+	body { font:12px/1.5 微软雅黑, SimHei, Microsoft YaHei, Arial, sans-serif; color:#000; overflow-x:hidden;background:#FFF;}
+	html,body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, a, del, input, textarea, select, img, dl, dt, dd, ol, ul, li, dfn, em, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, big, font, small, strong, b, center , button { margin: 0; padding: 0 }
+	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, mark, audio, video { display: block; margin: 0; padding: 0 }
+	h1, h2, h3, h4, h5, h6, button, input, select, textarea { font-size: 100% }
+	address, cite, dfn, em, var { font-style: normal }
+	fieldset, img ,input,a{ border: 0 }
+	li { list-style: none }
+	table { border-collapse: collapse; border-spacing: 0 }
+	a{text-decoration:none;}
+
+	.clear{clear:both;}
+
+	.bigdiv{width:486px;height:121px;border:1px solid red;margin:0px auto;overflow-x:hidden;overflow-y:hidden;;}
+	.bigdiv .divinner{width:99999px;height:121px;float:left;}
+	.bigdiv .divinner li{float:left;width:486px;height:121px;}
+	.bigdiv2{width:486px;height:22px;margin:10px auto;}
+	.bigdiv2 span{float:left;height:20px;width:20px;border:1px solid red;margin-right:20px;}
+	.bigdiv2 span.selected{background:#4EB1F7;}
+ </style>
+</head>
+
+<body>
+ <div class="bigdiv">
+    <div class="divinner">
+				<ul>
+					<li><img src="2.jpg"></li>
+					<li><img src="3.jpg"></li>
+					<li><img src="4.jpg"></li>
+					<li><img src="5.jpg"></li>
+				</ul>
+		</div>
+ </div>
+ <div class="bigdiv2">
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+ </div>
+</body>
+<script type="text/javascript">
+<!--
+	 $(function(){
+			$(".bigdiv2 span").eq(0).addClass("selected");
+			var time1;
+			var time2;
+			var n=0;
+			var oneliwidth= $(".divinner ul li").eq(0).width();//1个li的宽度
+			function test1(){
+					
+				  if (time1)
+				  {
+							clearInterval(time1);
+				  }
+					if (time2)
+					{
+							clearTimeout(time2);
+					}
+					time1= setInterval(test2,5000);	
+			}
+			test1();
+			//自动滚动n的值
+			function test2(){
+					n++;
+					if (n> ($(".divinner ul li").length-1))
+					{
+						n=0;
+					}
+					test3(n);
+			}
+			function test3(_x){
+				 n = _x;
+				 $(".bigdiv2 span").eq(_x).addClass("selected").siblings().removeClass("selected");
+				 $(".bigdiv").animate({
+						scrollLeft:(_x*oneliwidth)
+				 });
+				 time2 = setTimeout(test1,3000);
+			}
+			var spans = $(".bigdiv2 span");
+			spans.click(function(){
+					if (time1)
+				  {
+							clearInterval(time1);
+				  }
+					if (time2)
+					{
+							clearTimeout(time2);
+					}
+					$(".bigdiv").stop(true);
+					$(this).addClass("selected").siblings().removeClass("selected");
+					test3($(".bigdiv2 span").index(this));
+			})
+	 })
+//-->
+</script>
+</html>

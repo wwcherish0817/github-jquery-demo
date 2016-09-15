@@ -1,0 +1,85 @@
+<!DOCTYPE>
+<html>
+<head>
+<title> New Document </title>
+ <meta charset="UTF-8">
+ <meta name="Generator" content="EditPlus">
+ <meta name="Author" content="">
+ <meta name="Keywords" content="">
+ <meta name="Description" content="">
+ <link rel="stylesheet" type="text/css" href="">
+ <script type="text/javascript" src="jquery-1.7.2.js">
+ </script>
+ <style type="text/css">
+   body { font:12px/1.5 微软雅黑, SimHei, Microsoft YaHei, Arial, sans-serif; color:#000; overflow-x:hidden;background:#FFF;}
+		html,body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, a, del, input, textarea, select, img, dl, dt, dd, ol, ul, li, dfn, em, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, big, font, small, strong, b, center , button { margin: 0; padding: 0 }
+		article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, mark, audio, video { display: block; margin: 0; padding: 0 }
+		h1, h2, h3, h4, h5, h6, button, input, select, textarea { font-size: 100% }
+		address, cite, dfn, em, var { font-style: normal }
+		fieldset, img ,input,a{ border: 0 }
+		li { list-style: none }
+		table { border-collapse: collapse; border-spacing: 0 }
+		a{text-decoration:none;}
+
+		.clear{clear:both;}
+
+	.bigdiv{width:880px;height:121px;border:1px solid red;margin:0px auto;}
+	.bigdiv ul li{position:relative;float:left;width:67px;height:121px;overflow:hidden;}
+	.bigdiv ul li .mosoverdiv{width:67px;height:121px;float:left;}
+	.bigdiv ul li a{float:left;width:417px;height:121px;}
+	.li1{background:url(downxx/2.jpg) 0 0 no-repeat;}
+	.li2{background:url(downxx/3.jpg) 0 0 no-repeat;}
+	.li3{background:url(downxx/4.jpg) 0 0 no-repeat;}
+	.li4{background:url(downxx/5.jpg) 0 0 no-repeat;}
+	.li5{background:url(downxx/6.jpg) 0 0 no-repeat;}
+	.li6{background:url(downxx/7.jpg) 0 0 no-repeat;}
+ </style>
+</head>
+
+<body>
+  <div class="bigdiv">
+			<ul>
+					 <li class="li1">
+							 <div class="mosoverdiv"></div>
+					     <a href="##"></a>
+					  </li>
+
+						<li class="li2">
+							 <div class="mosoverdiv"></div>
+					     <a href="##"></a>
+					  </li>
+						<li class="li3">
+							 <div class="mosoverdiv"></div>
+					     <a href="##"></a>
+					  </li>
+						<li class="li4">
+							 <div class="mosoverdiv"></div>
+					     <a href="##"></a>
+					  </li>
+						<li class="li5">
+							 <div class="mosoverdiv"></div>
+					     <a href="##"></a>
+					  </li>
+						<li class="li6">
+							 <div class="mosoverdiv"></div>
+					     <a href="##"></a>
+					  </li>
+						
+						
+			</ul>
+	</div>
+</body>
+<script type="text/javascript">
+<!--
+	 var mosoverdiv = $(".bigdiv .mosoverdiv");
+   mosoverdiv.mouseover(function(){
+			$(".bigdiv li").stop(true)
+		  $(this).parent().animate({
+					width:"484"
+			},500);
+			$(this).parent().siblings().animate({
+				width:"67"			},500)
+	 })
+//-->
+</script>
+</html>
