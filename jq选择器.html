@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		li{margin:20px 0;font-size:16px;}
+		li b{font-size:20px;}
+	</style>
+</head>
+<body>
+	
+	<ul>
+		<li>Jq选择器:</li>
+		<li><b>基础选择器</b></li>
+		<li>$("*") 选择所有元素.</li>
+		<li>$(".class") 选择给定样式类名的所有元素</li>
+		<li>$("span")根据给定（html）标记名称选择所有的元素</li>
+		<li>$("#id")选择一个具有给定id属性的单个元素。</li>
+		<li>$("span,p.p1,a,div")将每一个选择器匹配到的元素合并后一起返回</li>
+		<li><b>属性选择器</b></li>
+		<li>单引号里的双引号：$('a[rel="nofollow self"]')</li>
+		<li>双引号里的单引号： $("a[rel='nofollow self']")</li>
+		<li>单引号里面转义单引号： $('a[rel=\'nofollow self\']')</li>
+		<li>双引号里面转义双引号： $("a[rel=\"nofollow self\"]")</li>
+		<li>
+			选择指定属性值等于给定字符串或以该字符串为前缀（该字符串后跟一个连字符“-” ）的元素。<br/>
+			$('a[hreflang|="en"]')<br/>
+			<code>
+				&lt;a href="example.html" hreflang="en"&gt; jq-select-true &lt;/a&gt; <br/>
+				&lt;a href="example.html" hreflang="en-UK"&gt; jq-select-true &lt;/a&gt;<br/>
+				&lt;a href="example.html" hreflang="english"&gt; jq-select-false &lt;/a&gt;<br/>
+			</code>
+		</li>
+		<li>
+		选择指定属性具有包含一个给定的子字符串的元素。（选择给定的属性是以包含某些值的元素）<br/>
+			$('input[name*="man"]')<br/>
+			<code>
+				&lt; input name="man-news" /&gt;       jq-select-true<br/>
+				&lt; input name="milkman" /&gt;        jq-select-true<br/>
+				&lt; input name="letterman2" /&gt;     jq-select-true<br/>
+				&lt; input name="newmilk" /&gt;        jq-select-false<br/>
+			</code>
+		</li>
+		<li>
+			选择指定属性用空格分隔的值中包含一个给定值的元素。<br/>
+			$('input[name~="man"]') <br/>
+			<code>
+				&lt; input name="man-news" /&gt;       jq-select-false<br/>
+				&lt; input name="milk man" /&gt;        jq-select-true<br/>
+				&lt; input name="letterman2" /&gt;     jq-select-false<br/>
+				&lt; input name="newmilk" /&gt;        jq-select-false<br/>
+			</code>
+		</li>
+		<li>
+			选择指定属性是以给定值结尾的元素。这个比较是区分大小写的。<br/>
+			$('input[name$="letter"]')<br/>
+			<code>
+				&lt; input name="newsletter" /&gt;       jq-select-true<br/>
+				&lt; input name="milkman" /&gt;        jq-select-false<br/>
+				&lt; input name="jobletter" /&gt;     jq-select-true<br/>
+			</code>
+		</li>
+		<li>
+			选择指定属性是给定值的元素。<br/>
+			$('input[value="Hot Fuzz"]')<br/>
+			<code>
+				&lt; type="radio" name="newsletter" value="Hot Fuzz" /&gt;       jq-select-true<br/>
+				&lt;  type="radio" name="newsletter" value="Cold Fusion" /&gt;        jq-select-false<br/>
+				&lt; type="radio" name="newsletter" value="Evil Plans" /&gt;     jq-select-false<br/>
+			</code>
+		</li>
+		<li>
+			选择不存在指定属性，或者指定的属性值不等于给定值的元素。<br/>
+			$('input[name!="newsletter"]')<br/>
+			<code>
+				&lt; type="radio" name="newsletter" value="Hot Fuzz" /&gt;       jq-select-false<br/>
+				&lt;  type="radio" name="newsletter" value="Cold Fusion" /&gt;        jq-select-true<br/>
+				&lt; type="radio" name="newsletter" value="Evil Plans" /&gt;     jq-select-true<br/>
+			</code>
+		</li>
+		<li>
+			选择指定属性是以给定字符串开始的元素<br/>
+			$('input[name^="news"]')<br/>
+			<code>
+				&lt; input name="newsletter" /&gt;       jq-select-true<br/>
+				&lt; input name="milkman" /&gt;        jq-select-false<br/>
+				&lt; input name="newsboy" /&gt;     jq-select-true<br/>
+			</code>
+		</li>
+		<li>
+			选择所有具有指定属性的元素，该属性可以是任何值。<br/>
+			$( "div[id]" )<br/>
+			<code>
+				&lt;div&gt; no id  &lt;/div&gt;       jq-select-false<br/>
+				&lt;div id="hey" &gt;  id ="hey"  &lt;/div&gt;        jq-select-true<br/>
+				&lt;div id="there"&gt; id ="there" &lt;/div&gt;    jq-select-true<br/>
+				&lt;div&gt; no id  &lt;/div&gt;    jq-select-false<br/>
+			</code>
+		</li>
+		<li>
+			选择匹配所有指定的属性筛选器的元素<br/>
+			$('input[id][name$="man"]')<br/>
+			<code>
+				&lt; input id="man-news" name="man-news" /&gt;       jq-select-false<br/>
+				&lt; input name="milkman" /&gt;        jq-select-false<br/>
+				&lt; input id="letterman" name="new-letterman" /&gt;     jq-select-true<br/>
+				&lt; input name="newmilk" /&gt;     jq-select-false<br/>
+			</code>
+		</li>
+		<li><b>基础筛选选择器</b></li>
+		<li>
+			选择所有正在执行动画效果的元素.<br/>
+			 $("div:animated")
+		</li>
+		<li>
+			在匹配的集合选择索引值为n的元素。 从0开始<br/>
+			$("td:eq(2)")
+		</li>
+		<li>
+			选择偶数元素，从 0 开始计数<br/>
+			$("tr:even")
+		</li>
+		<li>
+			选择第一个匹配的元素。<br/>
+			$("tr:first")
+		</li>
+		<li>
+			选择当前获取焦点的元素。<br/>
+			&lt;div id="content"&gt;<br/>
+			&nbsp;&nbsp;&lt;input tabIndex="1"&gt;<br/>
+			&nbsp;&nbsp;&lt;input tabIndex="2"&gt;<br/>
+			&nbsp;&nbsp;&lt;select tabIndex="3"&gt;<br/>
+			&nbsp;&nbsp;&nbsp;&lt;option&gt;select menu&lt;/option&gt;<br/>
+			&nbsp;&nbsp;&lt;/select&gt;<br/>
+			&nbsp;&lt;div tabIndex="4"&gt;<br/>
+			&nbsp;&nbsp;&nbsp;&nbsp;a div<br/>
+			&nbsp;&nbsp;&lt;/div&gt;<br/>
+			&nbsp;&lt;/div&gt;<br/>
+			&lt;script&gt;<br/>
+				$( "#content" ).delegate( "*", "focus blur", function( event ) {<br/>
+					var elem = $( this );<br/>
+					setTimeout(function() {<br/>
+					   elem.toggleClass( "focused", elem.is( ":focus" ) );<br/>
+					}, 0);<br/>
+				});<br/>
+			&lt;/script&gt;
+			
+		</li>
+		<li>
+			选择匹配集合中所有大于给定index（索引值）的元素。<br/>
+			$( "td:gt(4)" )  从0开始计数的索引值。<br/>
+			$( "td:gt(-2)" )  从0开始计数的索引值。 从最后一个元素开始反向计数。<br/>
+		</li>
+		<li>
+			选择所有标题元素，像h1, h2, h3 等.<br/>
+			$(":header")
+		</li>
+		<li>
+			选择指定语言的所有元素。<br>
+			$( "div:lang(en-us)" ) <br>
+			&lt;div lang="en-us"&gt;red &lt;/div&gt;
+		</li>
+		<li>
+			选择最后一个匹配的元素。<br>
+			$("tr:last")
+		</li>
+		<li>
+			选择匹配集合中所有小于给定index索引值）的元素。<br>
+			$("td:lt(4)")  从 0 开始计数的索引值。<br>
+			$("td:lt(-2)") 从0开始计数的索引值。 从最后一个元素开始反向计数。
+		</li>
+		<li>
+			选择所有元素去除不匹配给定的选择器的元素。<br>
+			$("input:not(:checked) + span").css("background-color", "yellow") <br>
+			&lt;div&gt;  jq-select-true<br>
+			&nbsp;&lt;input type="checkbox" name="a" /&gt;<br>
+			&nbsp;&lt;span>Mary&lt;/span&gt;  color-yellow<br>
+			&lt;/div&gt;<br>
+			&lt;div&gt;  jq-select-true<br>
+			&nbsp;&lt;input type="checkbox" name="b" /&gt;<br>
+			&nbsp;&lt;span>lcm&lt;/span&gt; color-yellow<br>
+			&lt;/div&gt;<br>
+			&lt;div&gt;  jq-select-false<br>
+			&nbsp;&lt;input type="checkbox" name="c" checked="checked" /&gt;<br>
+			&nbsp;&lt;span>Peter&lt;/span&gt;<br>
+			&lt;/div&gt;<br>
+		</li>
+		<li>
+			选择奇数元素，从 0 开始计数。<br>
+			$("tr:odd")
+		</li>
+		<li>
+			jQuery( ":root" )  选择该文档的根元素。  $( ":root" )[0].nodeName == "HTML"
+		</li>
+		<li><b>内容筛选选择器</b></li>
+		<li>
+			选择所有父级元素下的第一个子元素。<br/>
+			$("div span:first-child")
+		</li>
+		<li>
+			选择所有相同的元素名称的第一个兄弟元素。<br/>
+			$("span:first-of-type")
+		</li>
+		<li>
+			选择所有父级元素下的最后一个子元素<br/>
+			$("div span:last-child")
+		</li>
+		<li>
+			选择所有相同的元素名称的最后一个兄弟元素。<br/>
+			$("span:last-of-type")
+		</li>
+		<li>
+			 每个相匹配子元素的索引值，从1开始，也可以是字符串 even 或 odd，或一个方程式( 例如 :nth-child(even), :nth-child(4n) )。<br/>
+			$("p:nth-child(2)")
+		</li>
+		<li>
+			每个相匹配子元素的索引值，从最后一个开始(1)，也可以是字符串 even 或 odd，或一个方程式( 例如 :nth-last-child(even), :nth-last-child(4n) )<br/>
+			$("ul li:nth-last-child(2)")
+		</li>
+		<li>
+			 每个相匹配子元素的索引值，从最后一个开始(1)，也可以是字符串 even 或 odd，或一个方程式( 例如 :nth-last-of-type(even), :nth-last-of-type(4n))<br/>
+			 $("ul li:nth-last-of-type(2)")
+		</li>
+		<li>
+			每个相匹配子元素的索引值，从1开始，也可以是字符串 even 或 odd，或一个方程式( 例如 :nth-of-type(even), :nth-of-type(4n))。<br/>
+			$( "span:nth-of-type(2)" )
+		</li>
+		<li>
+			选择所有其父元素下只有一个子元素的元素。 <br/>
+			$("div button:only-child")
+		</li>
+		<li>
+			选择所有元素没有兄弟元素具有相同的元素名称的所有元素。 <br/>
+			$("button:only-of-type")
+		</li>
+		<li><b>内容过滤选择器</b></li>
+		<li>
+			用来查找的一个文本字符串。这是区分大小写的。<br/>
+			$("div:contains('John')")
+		</li>
+		<li>
+			选择所有没有子元素的元素（包括文本节点）<br/>
+			$("td:empty")
+		</li>
+		<li>
+			选择元素其中至少包含指定选择器匹配的一个种元素。任何选择器。<br/>
+			$("div:has(p)")
+		</li>
+		<li>
+			选择所有含有子元素或者文本的父级元素<br/>
+			$("td:parent")
+		</li>
+		<li>
+			选择所有按钮元素和类型为按钮的元素。<br/>
+			$(":button")
+		</li>
+		<li>
+			选择所有类型为复选框的元素。<br/>
+			$("form input:checkbox")
+		</li>
+		<li>
+			匹配所有勾选的元素。<br/>
+			$( "input:checked" )
+		</li>
+		<li>
+			选择所有被禁用的元素。<br/>
+			$("input:disabled")
+		</li>
+		<li>
+			选择所有可用的元素。<br/>
+			$("input:enabled")
+		</li>
+		<li>
+			选择所有类型为文件（file）的元素。<br/>
+			$("input:file")
+		</li>
+		<li>
+			选择所有图像类型的元素。<br/>
+			 $("input:image")<br/>
+			 &lt;input type="image" /&gt;
+		</li>
+		<li>
+			选择所有 input, textarea, select 和 button 元素.<br/>
+			$(":input")<br/>
+		</li>
+		<li>
+			选择所有类型为密码的元素。<br/>
+			$("input:password")<br/>
+		</li>
+		<li>
+			选择所有类型为单选框的元素。<br/>
+			$("input:radio")
+		</li>
+		<li>
+			选择所有类型为重置的元素。<br/>
+			$("input:reset")<br/>
+			&lt;input type="reset" /&gt;
+		</li>
+		<li>
+			选择所有被选中的元素。<br/>
+			$("select option:selected")<br/>
+		</li>
+		<li>
+			选择所有类型为提交的元素。<br/>
+			$("input:submit ")<br/>
+			&lt;input type="submit" /&gt;
+		</li>
+		<li>
+			选择所有类型为提交的元素。<br/>
+			$("input:text ")<br/>
+			&lt;input type="text" /&gt;
+		</li>
+		<li><b>层级选择器</b></li>
+		<li>
+			选择所有指定“parent”元素中指定的"child"的直接子元素。<br/>
+			$("ul.topnav > li")<br/>
+			
+		</li>
+		<li>
+			选择给定的祖先元素的所有后代元素。<br/>
+			$("form input")
+		</li>
+		<li>
+			选择所有紧接在 “prev” 元素后的 “next” 元素<br/>
+			$("label + input")<br/>
+			&lt;label&gt;Name:&lt;/label&gt;<br/>
+			&lt;input name="name" /&gt;
+		</li>
+		<li>
+			匹配 “prev” 元素之后的所有 兄弟元素。具有相同的父元素，并匹配过滤“兄弟姐妹”选择器。<br/>
+			$("#prev ~ div")
+		</li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	
+</body>
+</html>
