@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+    <div class="switchdiv " id="switchdiv" value="">
+        <span class="radius"></span>
+        <span class="inner">关</span>
+    </div>
+</body>
+<script>
+    $("#switchdiv").on("click",function(){
+        var val = !Boolean($(this).attr("value"));
+        if(val){
+            $(this).attr("value",val).find(".inner").text("开");
+        }
+        else
+        {
+            $(this).attr("value","").find(".inner").text("关");
+        }
+        $(this).toggleClass("open");
+    })
+
+</script>
+</html>

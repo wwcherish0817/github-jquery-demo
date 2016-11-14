@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="innerdiv" id="innerdiv">
+        <div class="full"></div>
+        <div class="nofull"></div>
+        <div class="icon"></div>
+        <div class="showTxt"></div>
+    </div>
+</body>
+<script>
+    $(function(){
+        console.log();
+        var allWidth= $("#innerdiv").width();
+
+        var _move=false;//移动标记
+        var _x,_y;//鼠标离控件左上角的相对位置
+        $(".icon").click(function(){
+            //alert("click");//点击（松开后触发）
+        }).mousedown(function(e){
+            _move=true;
+            _x=e.pageX-parseInt($(".icon").css("left"));
+            _y=e.pageY-parseInt($(".icon").css("top"));
+            $(".icon").fadeTo(20, 0.5);//点击后开始拖动并透明显示
+        });
+        $("#innerdiv").mousemove(function(e){
+            if(_move){
+
+                var x=e.pageX-_x;//移动时根据鼠标位置计算控件左上角的绝对位置
+                if(x<0 || x > allWidth){return false;}
+
+                var y=e.pageY-_y;
+                $(".icon").css({top:1,left:x});//控件新位置
+                $(".nofull").width(x).css("border-top","3px solid #abcdef");
+                var num = parseInt((x/allWidth)*100);
+                $(".showTxt").text(num);
+
+            }
+        }).mouseup(function(){
+            _move=false;
+            $(".icon").fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,43 @@
+@charset "utf-8";
+body { font:12px/1.5 微软雅黑, SimHei, Microsoft YaHei, Arial, sans-serif; color:#515151; overflow-x:hidden;background:#FFF;}
+html,body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, a, del, input, textarea, select, img, dl, dt, dd, ol, ul, li, dfn, em, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, big, font, small, strong, b, center , button { margin: 0; padding: 0 }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, mark, audio, video { display: block; margin: 0; padding: 0 }
+h1, h2, h3, h4, h5, h6, button, input, select, textarea { font-size: 100% }
+address, cite, dfn, em, var { font-style: normal }
+fieldset, img ,input,a{ border: 0 }
+li { list-style: none }
+table { border-collapse: collapse; border-spacing: 0 }
+a{text-decoration:none;}
+.clear{display:block!important;clear:both;float:none!important;width:auto!important;height:0!important;overflow:hidden;margin:0 auto!important;padding:0!important;font-size:0;line-height:0;height:0px;}
+.floatl{float:left;}
+.floatr{float:right;}
+
+.selectdiv{width: 205px;height: 35px;border: 2px solid #ccc;border-radius: 10px 10px;margin: 30px auto;position: relative;}
+.selectdiv input{width: 190px;display: inline-block;height: 35px;outline:none;position: absolute;left: 5px;}
+.borderColor{border-color:#57C5F7; }
+.innerList{position: absolute;left: 5px;top: 38px;border: 2px solid #ccc;width: 190px;border-radius: 5px 5px;display: none;}
+.innerList li{height: 28px;line-height: 28px;padding-left: 10px;}
+.innerList li:hover{background: #EdiAF8FE;}
+.showInner{position: absolute;left: 5px;top: 38px;border: 2px solid #ccc;padding-left: 10px;width: 180px;border-radius: 5px 5px;height: 28px;line-height: 28px;color: #CDCDCD;display: none;}
+.showInnerLight{color: #000;}
+.showInnerLight:hover{background: #EAF8FE;}
+
+.switchdiv{width: 47px;height: 22px;background:#ccc;border-radius: 10px 10px;margin: 30px auto;position: relative; }
+.switchdiv .radius{position: absolute;height: 22px;width: 22px;background: #fff;left: 0;top: 0;border-radius: 100% 100%;}
+.switchdiv .inner{position: absolute;font-size: 16px;right: 3px;top: 0;}
+.open{background: #2DB7F5;}
+.open .radius{left: 25px;top: 0;}
+.open .inner{right: 25px;top: 0;color: #fff;}
+.selectTime{display: flex;justify-content: space-between;padding: 0 10px;width: 100px;height: 24px;align-items: center;border-radius: 10px 10px;border: 2px solid #ccc;margin: 30px auto;position: relative;}
+.timeList{display: flex;justify-content:space-around;width: 120px;height: 120px;border: 2px solid #ccc;border-radius: 10px 10px;overflow: hidden;left:-15px;top:26px;position: absolute;padding-left: 15px;}
+.timeList div{display: inline-block;}
+
+.timelistInner{display: none;}
+.timelistInner_show{display: block;}
+
+.innerdiv{width: 300px;height: 16px ;margin: 30px auto;position: relative;}
+.innerdiv div{position: absolute;}
+.innerdiv .full{border-top: 3px solid #ccc;left: 0;top: 7px;height: 0;width: 100%;z-index: 1;}
+.innerdiv .nofull{border-top: 3px solid #ccc;left: 0;top: 7px;height: 0;width: 100%;z-index: 5;}
+.innerdiv .icon{height: 10px;width: 10px;border: 2px solid #abcdef;background: #fff;left: 0;top: 1px;border-radius: 10px 10px;z-index: 10;}
+.showTxt{font-size: 22px;left:0;top: 20px;}

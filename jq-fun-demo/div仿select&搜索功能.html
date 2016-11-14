@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+<body>
+        <div class="selectdiv" id="selectdiv">
+            <input type="text" value="请选择人员" id="io-input">
+            <ul class="innerList" id="innerList">
+                <li>杰克</li>
+                <li>露西</li>
+                <li>汤姆</li>
+            </ul>
+            <div class="showInner" id="showInner">无法找到</div>
+        </div>
+</body>
+<script>
+
+    var io_input = $("#io-input");
+    var selectdiv = $("#selectdiv");
+    var const_str_input = "请选择人员";
+    var const_str_showInner = "无法找到";
+    var innerList = $("#innerList");
+    var showInner =  $("#showInner");
+
+    io_input.on("focus",function(){
+        selectdiv.addClass("borderColor");
+        if($(this).val() == const_str_input){
+            $(this).val("");
+        }
+        innerList.show();
+        showInner.hide();
+    })
+    io_input.on("keyup",function(){
+        var thisval = $(this).val();
+        if(thisval!=""){
+            innerList.hide();
+            showInner.show();
+            var liCount =  $("li:contains("+thisval+")",innerList);
+            if(liCount.length){
+                showInner.addClass("showInnerLight");
+                showInner.text(liCount.text());
+            }
+            else
+            {
+                showInner.removeClass("showInnerLight");
+                showInner.text(const_str_showInner);
+            }
+        }
+        else
+        {
+            innerList.show();
+            showInner.hide();
+        }
+
+    }).next().find("li").click(function(){
+        io_input.val($(this).text());
+        selectdivRemoveClass();
+    })
+    showInner.on("click",function(){
+        if($(this).text() != const_str_showInner ){
+            io_input.val($(this).text());
+            selectdivRemoveClass();
+        }
+    })
+    function  selectdivRemoveClass(){
+        $("#innerList").hide();
+        showInner.hide();
+        selectdiv.removeClass("borderColor");
+    }
+</script>
+</html>
