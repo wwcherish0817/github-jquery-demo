@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="font-icon/iconfont.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div id="show"></div>
+</body>
+<script>
+
+    $.fn["timePicker"] =function(options){
+        var __DEFAULTS__ = {
+            name : "name",
+            placeholder : "请选择时间"
+        };
+        var __PROTO__ = {
+            _render:function(){
+                this.html('<div class="timeSelect"> '+
+                        '       <span class="timeshow">select time</span>  '+
+                                '<span class="icon iconfont">&#xe620;</span>   '+
+                                '<div class="timelist">               '+
+                                '       <div class="topShow">    '+
+                                '       <span class="selecttimeshow"></span>   '+
+                                '       <a class="icon iconfont closeshow" href="javascript:;">&#xe692;</a>  '+
+                                '</div>                         '+
+                                '<div class="listInner">     '+
+                                '       <ul class="hour"></ul>   '+
+                                '      <ul class="minute"></ul>   '+
+                                '<ul class="second"></ul>   '+
+                                '</div>           '+
+                                '</div>'+
+                        '</div>');
+                this.$listInner = this.find(".timeSelect .listInner") ;
+                this.$timeShow = this.find(".timeSelect .timeshow") ;
+                this.$hour = this.$listInner.find(".hour").attr("value",0);
+                this.$minute = this.$listInner.find(".minute").attr("value",0);
+                this.$second = this.$listInner.find(".second").attr("value",0);
+                this.$selecttimeshow =this.find(".timeSelect .selecttimeshow");
+
+                var htmlStr = "";
+                for(var i=0;i<60;i++){
+                    i==24&&this.$hour.html(htmlStr);
+                    htmlStr+="<li>"+(i<10?"0"+i:i)+"</li>";
+                }
+                this.$minute.html(htmlStr);
+                this.$second.html(htmlStr);
+                this.timeSelectArr =["00","00","00"];
+                this.$selecttimeshow.text( this.timeSelectArr.join(":"));
+            },
+            _handle :function(){
+                var $this = this;
+                //显示&关闭list
+                $this.$timeShow.on("click",function(){
+                    var $itemList = $this.find(".timelist");
+                    $this._setFiledValue($this.$hour,0);
+                    $this._setFiledValue($this.$minute,0);
+                    $this._setFiledValue($this.$second,0);
+                    $itemList.show().find(".closeshow").on("click",function(){
+                        $itemList.hide();
+                        $this.$timeShow.text($this.$selecttimeshow.text());
+                    });
+                })
+                //绑定滑动事件
+                $("ul",$this.$listInner).on('wheel',function(event){
+                    var $field = $(event.currentTarget);
+                    var currValue = Number($field.attr("value"));
+                    if(event.originalEvent.wheelDelta<0){
+                        currValue++;
+                    }else{
+                        currValue--;
+                    }
+                    $this._setFiledValue($field,currValue);
+                }),
+                //绑定点击li
+                $("li",$this.$listInner).on("click",function(){
+                    var $lithis = $(this);
+                    if($lithis.parent()[0] == $this.$hour[0]){
+                        $this.timeSelectArr[0]=$lithis.text();
+                    }
+                    else if($lithis.parent()[0] == $this.$minute[0]){
+                        $this.timeSelectArr[1]=$lithis.text();
+                    }
+                    else if($lithis.parent()[0] == $this.$second[0]){
+                        $this.timeSelectArr[2]=$lithis.text();
+                    }
+
+                    $this.$selecttimeshow.text( $this.timeSelectArr.join(":"));
+                })
+            },
+            //上下滑动ul
+            _setFiledValue : function($filed,value){
+                value = Number(value);
+                value = Math.max(value,0);
+                $filed.attr("value",value).css({
+                    transform: "translateY(-"+value*24+"px)"
+                });
+            },
+        }
+
+
+        this.options = $.extend(__DEFAULTS__,options);
+        $.extend(this,__PROTO__);
+        this._render();//初始化dom信息
+        this._handle(); //绑定按钮事件
+    }
+
+    $("#show").timePicker({
+        placeholder:"aab"
+    })
+
+
+</script>
+</html>

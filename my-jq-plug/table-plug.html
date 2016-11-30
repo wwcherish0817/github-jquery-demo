@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/jquery.min.js"></script>
+    <style>
+        *{margin: 0;padding: 0;}
+        .listinner{padding: 10px;}
+        .col{float: left;border: 1px solid #ccc;text-align: center;}
+        .col .header{border-bottom: 1px solid #ccc; padding: 5px 10px; }
+        .col .header h4{font-weight: bold;font-size:22px;}
+        .col li{height: 26px;border-top: 1px solid #ccc;;
+            line-height: 26px;list-style-type:none;;}
+        .col li.hoverClass{background: #c0c0c0;}
+        .col li.select{background: #FAFAD2;}
+        .clear{clear: both;}
+        .col.drag{
+            position: absolute;
+            border: 1px solid #d9d9d9;
+            border-right: none;
+            background: #fff;
+        }
+        .col .head.drag-in-left{
+            border-left:1px solid #dc0000;
+        }
+        .col .head.drag-in-right{
+            border-right:1px solid #dc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="showTab"></div>
+
+</body>
+<script>
+    $.fn["tabeFun"] =function(options) {
+        var __DEFAULTS__ = {
+            heard:[],
+            data:[]
+        };
+        var __PROTO__ = {
+            //创建结构
+            _init:function(){
+                this.html('<div class="listinner">'+
+                '<div class="data">'+
+                '</div>'+
+                '</div>');
+
+                //设置一些成员变量
+                this.$dataDom = this.find(".listinner .data");
+                this._renderHeader();
+                this._handle();
+                this.dragging = false;
+            },
+            _renderHeader:function(){
+                var $this = this;
+                for(var idx in $this.options.heard){
+                    $this.$dataDom.append('<div class="col">'+
+                    '<div class="header" name='+$this.options.heard[idx].name+'>'+
+                    '<h4 name='+$this.options.heard[idx].name+'>'+$this.options.heard[idx].text+'</h4>'+
+                    '<i></i>'+
+                    '</div>'+
+                    '<ul name='+$this.options.heard[idx].name+'></ul>'+
+                    '</div>');
+                }
+                $this._rendRowData();
+
+            },
+            _rendRowData:function(){
+                var $this = this;
+                $this.$dataDom.find("ul").html("");
+                for(var idx in $this.options.data){
+                    var row = $this.options.data[idx];
+                    var isScelect = $this.options.data[idx].select ?"select":"";
+                    for(var prop in row){
+                        $this.$dataDom.find(".col ul[name="+prop+"]").append('<li rendIdx='+idx+' class='+isScelect+'>'+row[prop]+'</li>')
+                        //console.log(prop);
+                    }
+                }
+            },
+            _handle:function(){
+                var $this = this;
+                $this.$dataDom.find(".col .header").on('mousedown',function(event){
+                    if(event.buttons==1)return;
+                    var $heads = $(event.currentTarget).parents(".data").find(".col .head");
+                    var $col = $(event.currentTarget.parentNode);
+
+                    $this.dragging = true;
+                    $this.draggingTarget = $col[0];
+                    var offsetX = -10;
+                    var offsetY = -10;
+                    $this.initMovePosX = event.clientX-offsetX;
+                    $this.initMovePosY = event.clientY-offsetY;
+                    $col.css({left:$this.initMovePosX+"px",top:$this.initMovePosY+"px"});
+
+                    $(document.body).on("mousemove",function(event){
+                        var x = event.clientX-offsetX;
+                        var y = event.clientY-offsetY;
+                        var movePosX = x-$this.initMovePosX;
+                        //移动有距离再移动 不妨碍点击排序
+                        if(Math.abs(movePosX)>5?true:false){
+                            $col.addClass("drag");
+                            $col.css({left:x+"px",top:y+"px"});
+                        }
+                        else
+                        {
+                            $this.draggingInTarget=null;
+                        }
+                    }).on("mouseup",function(){
+                        $(document.body).off("mousemove mouseup");
+                        $col.removeClass("drag");
+                        var $inTarget = $this.draggingInTarget;
+                        if($inTarget == undefined || $inTarget ==null)
+                        {
+                            $this.dragging = false;
+                            $this.draggingTarget = null;
+                            $this.draggingInTarget = null;
+                            $heads.removeClass("drag-in-left drag-in-right").off("mousemove");
+
+                            return false;
+
+                        }
+                        if($inTarget.hasClass("drag-in-left")){
+                            $inTarget.parent().before($this.draggingTarget);
+                        }else{
+                            $inTarget.parent().after($this.draggingTarget);
+                        }
+                        $this.dragging = false;
+                        $this.draggingTarget = null;
+                        $this.draggingInTarget = null;
+                        $heads.removeClass("drag-in-left drag-in-right").off("mousemove");
+                    });
+                }).on("mouseenter",function(event){
+                    if($this.dragging&&event.currentTarget!=$this.draggingTarget){
+                        var $target = $this.draggingInTarget = $(event.currentTarget);
+                        $target.off("mousemove").on("mousemove",function(event){
+
+                            var offsetX = event.offsetX;
+                            var avg = $target.width()/2;
+                            if(offsetX<avg){
+                                $target.removeClass("drag-in-left drag-in-right").addClass("drag-in-left").parent().siblings().find(".head").removeClass("drag-in-left drag-in-right");
+                            }else{
+                                $target.removeClass("drag-in-left drag-in-right").addClass("drag-in-right").parent().siblings().find(".head").removeClass("drag-in-left drag-in-right");
+                            }
+                        });
+                    }
+                }).on("click","h4",function(){
+
+                    var pxGz = $(this).attr("px"); //排序规则
+                    var pxGj = $(this).attr("name"); //排序依据哪个字段
+                    $this.options.data.sort(function(obj1,obj2){
+                        if(!pxGz || pxGz =="sx")
+                        {
+                            //升序排列
+                            $(this).attr("px","jx");
+                            if(typeof obj2[pxGj]==="string" && typeof obj1[pxGj]==="string")
+                            {
+                                return obj2[pxGj].localeCompare(obj1[pxGj]);
+                            }
+                            return obj2[pxGj]-obj1[pxGj];
+                        }
+                        else if(pxGz =="jx"){
+                            //降序排列
+                            $(this).attr("px","sx");
+                            if(typeof obj2[pxGj]==="string" && typeof obj1[pxGj]==="string")
+                            {
+                                return obj1[pxGj].localeCompare(obj2[pxGj]);
+                            }
+                            return obj1[pxGj]-obj2[pxGj];
+                        }
+                    });
+                    if(!pxGz || pxGz =="sx")
+                    {
+                        //升序排列
+                        $(this).attr("px","jx");
+                    }
+                    else if(pxGz =="jx"){
+                        //降序排列
+                        $(this).attr("px","sx");
+                    }
+                    $this._rendRowData();
+                });
+                var $ul =  $this.$dataDom.find(".col ul");
+                $ul.on("mouseover","li", function () {
+                    $this.$dataDom.find(".col ul li[rendIdx="+$(this).attr("rendIdx")+"]").addClass("hoverClass");
+
+                }).on("mouseout","li",function(){
+                    $this.$dataDom.find(".col ul li[rendIdx="+$(this).attr("rendIdx")+"]").removeClass("hoverClass");
+                }).on("click","li",function(){
+                    $this.$dataDom.find(".col ul li[rendIdx="+$(this).attr("rendIdx")+"]").toggleClass("select");
+                    //排序后保存选中状态
+                    for(var idx in $this.options.data){
+                        if(idx == $(this).attr("rendIdx") ){
+                            if($(this).hasClass("select"))
+                            {
+                                $this.options.data[idx].select = true;
+                            }
+                             else
+                            {
+                                $this.options.data[idx].select = false;
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        this.options = $.extend(__DEFAULTS__,options);
+        $.extend(this,__PROTO__);
+        this._init();
+    }
+    $(".showTab").tabeFun({
+        heard:[
+            {text:"Order Id",name:"orderId"},
+            {text:"Custom Id",name:"customId"},
+            {text:"Order Date",name:"orderDate"},
+            {text:"Balance",name:"balance"},
+            {text:"Descript",name:"descript"}
+        ],
+        data:[
+            {
+                "orderId":"1",
+                "customId":"Star",
+                "orderDate":"2016-09-09",
+                "balance":1000000,
+                "descript":"The Descript"
+            },
+            {
+                "orderId":"2",
+                "customId":"Think",
+                "orderDate":"2016-09-10",
+                "balance":900000,
+                "descript":"The Descript"
+            },
+            {
+                "orderId":"3",
+                "customId":"Ryan",
+                "orderDate":"2016-09-19",
+                "balance":800000,
+                "descript":"The Descript"
+            },
+            {
+                "orderId":"4",
+                "customId":"Fannie",
+                "orderDate":"2016-09-29",
+                "balance":700000,
+                "descript":"The Descript"
+            },
+            {
+                "orderId":"5",
+                "customId":"James",
+                "orderDate":"2016-08-09",
+                "balance":600000,
+                "descript":"The Descript"
+            },
+            {
+                "orderId":"6",
+                "customId":"Ami",
+                "orderDate":"2016-06-09",
+                "balance":500000,
+                "descript":"The Descript"
+            }
+        ]
+    })
+</script>
+</html>
