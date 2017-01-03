@@ -1,0 +1,121 @@
+<!DOCTYPE>
+<html>
+<head>
+<title> New Document </title>
+ <meta charset="UTF-8">
+ <meta name="Generator" content="EditPlus">
+ <meta name="Author" content="">
+ <meta name="Keywords" content="">
+ <meta name="Description" content="">
+ <link rel="stylesheet" type="text/css" href="">
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<div id="tabnav"> 
+	
+	</div>
+</body>
+<script>
+ $.fn["tabnav"] =function(options){
+		var __DEFAULTS__ = {
+			heard:[],
+			inner:[]
+		};
+			
+		var __PROTO__ = {
+			_init:function(){
+				for(var i=0;i<this.options.heard.length;i++){
+					var heardId = this.options.heard[i].id;
+					var headDiv = $("<div class='heardDiv'>"+this.options.heard[i].text+"</div>");
+					headDiv.attr("headerId",heardId);
+					this.append(headDiv);
+					var listUl = $("<ul class='listul'></ul>");
+					listUl.hide();
+					listUl.attr("headerId",heardId);
+					listUl.attr("isShow",0);
+					for(var j=0;j<this.options.inner.length;j++)
+					{
+						if(this.options.inner[j].heardId==heardId ){
+							 
+							for(var x=0;x<this.options.inner[j].list.length;x++){
+								var liItem = $("<li>"+this.options.inner[j].list[x].text+"</li>");
+								listUl.append(liItem);
+							}
+						}
+					}
+					this.append(listUl);
+				}
+				
+				 this.$heardDiv = this.find(".heardDiv") ;
+				 this.$listul = this.find(".listul") ;
+			},
+			_addEvent:function(){
+				
+				var $that = this;
+				  $that.$heardDiv.on("click",function(){
+						var hearId = $(this).attr("headerId");
+						for(var i=0;i<$that.$listul.length;i++){
+							var $ul = $that.$listul.eq(i);
+							var ulId = $ul.attr("headerId");
+							if(ulId == hearId){
+								var isShow = $ul.attr("isShow");
+								if(isShow == 0){
+									$ul.show();
+									$ul.attr("isShow",1);
+								}
+								else if(isShow == 1){
+									$ul.hide();
+									$ul.attr("isShow",0);
+								}
+								
+								break;
+							}
+						}
+						
+				  });
+			}
+		}
+		this.options = $.extend(__DEFAULTS__,options);
+        $.extend(this,__PROTO__);
+        this._init();
+		this._addEvent();
+ }
+  $("#tabnav").tabnav({
+       heard:[
+            {text:"aaa",id:1},
+            {text:"bbb",id:2},
+            {text:"ccc",id:3},
+        ],
+		inner:[
+			{
+				heardId:1,
+				list:[
+					{text:"a1",id:1},
+					{text:"a2",id:2},
+					{text:"a3",id:3},
+					{text:"a4",id:4},
+				]
+			},
+			{
+				heardId:2,
+				list:[
+					{text:"b1",id:1},
+					{text:"b2",id:2},
+					{text:"b3",id:3},
+					{text:"b4",id:4},
+				]
+			},
+			{
+				heardId:3,
+				list:[
+					{text:"c1",id:1},
+					{text:"c2",id:2},
+					{text:"c3",id:3},
+					{text:"c4",id:4},
+				]
+			}
+		]
+    })
+
+</script>
+</html>
