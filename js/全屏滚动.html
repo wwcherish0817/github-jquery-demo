@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{padding: 0;margin: 0}
+        body{width: 100%;height: 100%;overflow: hidden;}
+        .innerDiv{
+            overflow: hidden;font-size: 50px;text-align: center;position: relative;;
+        }
+        #scrollDiv{
+            position: absolute;
+            left: 0;
+            top: 0;;
+        }
+    </style>
+</head>
+<body>
+    <div class="innerDiv" id="innerDiv"></div>
+</body>
+    <script>
+        var windowWidth = document.body.clientWidth;
+        var windowHeight =document.documentElement.clientHeight;
+        function createDom(){
+            var innerDiv =document.getElementById("innerDiv");
+            innerDiv.style.width = windowWidth + "px";
+            innerDiv.style.height = windowHeight + "px";
+
+            var scrollDiv = document.createElement("div");
+            scrollDiv.style.width = windowWidth + "px";
+            scrollDiv.id = "scrollDiv";
+            innerDiv.appendChild(scrollDiv);
+
+            var createDiv = document.createElement("div");
+            createDiv.style.width = windowWidth + "px";
+            createDiv.style.height = windowHeight + "px";
+            createDiv.style.background ="#E94A80";
+            createDiv.innerHTML = "第一个Div,鼠标滑动向下滚动";
+            createDiv.style.lineHeight =  windowHeight + "px";
+            scrollDiv.appendChild(createDiv);
+
+
+            createDiv = document.createElement("div");
+            createDiv.style.width = windowWidth + "px";
+            createDiv.style.height = windowHeight + "px";
+            createDiv.style.background ="#E36501";
+            createDiv.innerHTML = "第二个Div,鼠标上下滚动";
+            createDiv.style.lineHeight =  windowHeight + "px";
+            scrollDiv.appendChild(createDiv);
+
+            createDiv = document.createElement("div");
+            createDiv.style.width = windowWidth + "px";
+            createDiv.style.height = windowHeight + "px";
+            createDiv.style.background ="#F5CD19";
+            createDiv.innerHTML = "第三个Div,鼠标上下滚动";
+            createDiv.style.lineHeight =  windowHeight + "px";
+            scrollDiv.appendChild(createDiv);
+
+            createDiv = document.createElement("div");
+            createDiv.style.width = windowWidth + "px";
+            createDiv.style.height = windowHeight + "px";
+            createDiv.style.background ="#86DC48";
+            createDiv.innerHTML = "第四个Div,鼠标上下滚动";
+            createDiv.style.lineHeight =  windowHeight + "px";
+            scrollDiv.appendChild(createDiv);
+
+            createDiv = document.createElement("div");
+            createDiv.style.width = windowWidth + "px";
+            createDiv.style.height = windowHeight + "px";
+            createDiv.style.background ="#68DAF9";
+            createDiv.innerHTML = "第五个Div,鼠标滑动向上滚动";
+            createDiv.style.lineHeight =  windowHeight + "px";
+            scrollDiv.appendChild(createDiv);
+
+            scrollDiv.style.top = 0;
+        }createDom();
+
+
+        window.onload = function(){
+            var moveDivAni = null;
+            var scrollFunc = function(e){
+                e = e || window.event;
+                if(e.deltaY > 0){
+                    //向下
+                    scrollToBottom();
+                }
+                else
+                {
+                    //向上
+                    scrollToTop();
+                }
+            }
+            if(document.addEventListener){
+                document.addEventListener('DOMMouseScroll',scrollFunc,true);
+            }
+            window.onmousewheel = document.onmousewheel = scrollFunc;
+
+
+            var scrollInnerDiv = document.getElementById("scrollDiv");
+            var scrollStausu = 1,initDivScrollTop = 0,scrollMoveCount;
+            function scrollToTop(){
+                if(moveDivAni!=null){
+                    return false;
+                }
+                if(Math.abs(parseInt(scrollInnerDiv.style.top)) <= 0){
+                    return false;
+                }
+                else
+                {
+                    initDivScrollTop = parseInt(scrollInnerDiv.style.top);
+                    scrollStausu  = 1;
+                    scrollMoveCount = 0;
+                    moveDivAni =setInterval(scrollMove,0.5);
+                }
+
+            }
+            function scrollToBottom(){
+                if(moveDivAni!=null){
+                    return false;
+                }
+                var maxScrollTop = (scrollInnerDiv.childNodes.length-1)*windowHeight;
+
+                if( Math.abs(parseInt(scrollInnerDiv.style.top))>= maxScrollTop){
+                    //alert("已经到最下边了");
+                    return false;
+                }
+                else
+                {
+                    initDivScrollTop = parseInt(scrollInnerDiv.style.top);
+                    scrollStausu  = -1;
+                    scrollMoveCount = 0;
+                    moveDivAni =setInterval(scrollMove,0.5);
+
+                }
+            }
+
+            function scrollMove(){
+                if(scrollMoveCount < windowHeight){
+                    initDivScrollTop += (2*scrollStausu);
+                    //console.log(initDivScrollTop);
+                    scrollInnerDiv.style.top = initDivScrollTop+"px";
+                    scrollMoveCount+=2;
+                }
+                else
+                {
+                    clearInterval(moveDivAni);
+                    moveDivAni = null;
+                }
+            }
+        }
+
+    </script>
+</html>

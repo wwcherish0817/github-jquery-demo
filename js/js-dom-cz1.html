@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+		<div>
+			需求:定义一个按钮，文本为“追加”，设置按钮的onClick属性，值为appendItem()，<br/>
+			代表的是当点击按钮时调用的函数为appendItem，定义appendItem函数，<br/>
+			实现每次点击先通过prompt问用户的爱好，后往文档中id为myList的ul中添加一个li元素，<br/>
+			文本内容为用户输入的爱好。<br/>
+			当用户点击追加的时候，往id为myList的ul中添加一个li元素，<br/>
+			这个li元素里有三个span，第一个span存放序号（序号从1开始），第二个span存放用户输入的爱好，<br/>
+			第三个存放一个按钮，按钮的文本是删除，当点击时让当前这个爱好li元素从ul中删除（remove方法移除DOM元素），<br/>
+			并且重新排每个li的序号
+		</div>
+    <button id="addbtn" onclick="appendItem()">追加</button>
+    <ul id="myList"></ul>
+</body>
+<script>
+    var myList = document.getElementById("myList");
+
+    function appendItem(){
+        var person=prompt("请输入你的爱好","");
+        if (person!=null && person!=""){
+            var newLi = document.createElement("li");
+
+            var span1 = document.createElement("span");
+            span1.className = "idx";
+            span1.innerHTML = "序号:"+ (myList.children.length+1);
+            newLi.appendChild(span1);
+
+            var span2 = document.createElement("span");
+            span2.className = "innerinfo";
+            span2.innerHTML ="        内容:" +person+"   ";
+            newLi.appendChild(span2);
+
+            var button3 = document.createElement("button");
+            button3.className = "removeBtn";
+            button3.innerHTML = "删除";
+            button3.addEventListener("click",function(){
+                this.parentNode.remove();
+                sortUl();
+            })
+            newLi.appendChild(button3);
+            myList.appendChild(newLi);
+
+        }
+    }
+    function sortUl(){
+        for(var i=0;i<myList.children.length;i++){
+            var liDom = myList.children[i];
+            var liIdxSapn = liDom.getElementsByClassName("idx")[0];
+            liIdxSapn.innerHTML ="序号:"+ (i+1);
+        }
+    }
+</script>
+</html>

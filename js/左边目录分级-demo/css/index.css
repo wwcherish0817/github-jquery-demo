@@ -1,0 +1,22 @@
+@charset "utf-8";
+body { font:12px/1.5 微软雅黑, SimHei, Microsoft YaHei, Arial, sans-serif; color:#515151; overflow-x:hidden;background:#FFF;}
+html,body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, a, del, input, textarea, select, img, dl, dt, dd, ol, ul, li, dfn, em, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, big, font, small, strong, b, center , button { margin: 0; padding: 0 }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, mark, audio, video { display: block; margin: 0; padding: 0 }
+h1, h2, h3, h4, h5, h6, button, input, select, textarea { font-size: 100% }
+address, cite, dfn, em, var { font-style: normal }
+fieldset, img ,input,a{ border: 0 }
+li { list-style: none }
+table { border-collapse: collapse; border-spacing: 0 }
+a{text-decoration:none;}
+.clear{display:block!important;clear:both;float:none!important;width:auto!important;height:0!important;overflow:hidden;margin:0 auto!important;padding:0!important;font-size:0;line-height:0;height:0px;}
+.floatl{float:left;}
+.floatr{float:right;}
+ul{padding-left:30px;}
+ul li{
+	height: 26px;line-height: 26px;font-size: 18px;
+}
+li.li1{}
+li.li2{padding-left:40px;}
+li.li3{padding-left:100px;}
+li.li4{padding-left:150px;}
+li .name{padding:0 20px;}

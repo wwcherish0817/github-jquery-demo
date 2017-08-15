@@ -1,0 +1,55 @@
+var a = [
+	{id: 10001, name: "Lisa", age: 16},
+	{id: 10002, name: "Bob", age: 22},
+	{id: 10003, name: "Alice", age: 20},
+];
+var b = [
+	{id: 10001, gender: "Female"},
+	{id: 10002, name: "Bob King", birthday: "1996-01-22"},
+	{id: 10005, name: "Tom", birthday: "2000-01-01"},
+];
+function mergeArr(arr1,arr2){
+	var arr = arr1;
+	for(var i in arr2){
+		var _ishave = false;
+		var obj = arr2[i];
+		for(var j in arr){
+			if(arr[j].id == obj.id){
+				for(x in obj){
+					if(!arr[j][x]){
+						arr[j][x]=obj[x];
+					}
+					else{
+						var num1 =arr[j][x];
+						var num2 = obj[x];
+						if(num1.length != num2.length){
+							//找到不同的字符长度
+							//合并字符串
+							if(num2.indexOf(num1) >= 0 ){
+								var newStr =  num2.replace(num1,num1);
+								arr[j][x] = num2;
+							}
+						}
+						else
+						{
+							//拼接字符串
+							if(num1!=num2){
+								num1+=(" " +num2);
+								arr[j][x] = num1;
+							}
+						}
+					}
+				}
+				
+				_ishave=  true;
+			}
+		}
+		if(!_ishave){
+			arr.push(obj);
+		}
+		
+	}
+	return arr;
+}
+var newArr = mergeArr(a,b);
+console.log(newArr);

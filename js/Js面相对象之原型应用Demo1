@@ -1,0 +1,70 @@
+<!DOCTYPE>
+<html>
+<head>
+<title> New Document </title>
+ <meta charset="UTF-8">
+ <meta name="Generator" content="EditPlus">
+ <meta name="Author" content="">
+ <meta name="Keywords" content="">
+ <meta name="Description" content="">
+ <link rel="stylesheet" type="text/css" href="">
+</head>
+<body>
+</body>
+<script type="text/javascript">
+	//需求,小猫咪咪和小狗大黄在打架 用面向对象表示需求
+	//分析, 对象:猫,狗 => 动物 共有方法:打架
+	//
+	function  Animal(_name,_color,_age) {
+		this.name = _name;
+		this.color = _color;
+		this.age = _age;
+	}
+	Animal.prototype={	
+		attack:function(AnimalObj){
+			if (AnimalObj instanceof Animal) {
+				console.log(this.name +"正在攻击"+AnimalObj.name);
+			}
+			else{
+				throw new Error("攻击对象只能是动物,不能是别的");
+			}
+		},
+		toString:function(){
+			console.log(this.name +","+this.color+","+this.age);
+		}
+	}
+
+	function Cat(){
+		Animal.apply(this,arguments); //把对象赋给原型
+	}
+	
+	function Dog(){
+		Animal.apply(this,arguments);
+	}
+	
+	Cat.prototype = new Animal();
+	//猫的特有属性
+	Cat.prototype.pashu=function(){
+				console.log(this.name + "会爬树!");
+			}
+
+	Dog.prototype= new Animal(); 
+	//狗的特有属性
+	Dog.prototype.kanjian=function(){
+				console.log(this.name + "看家!");
+			}
+
+	
+
+	var catobj = new Cat("咪咪","白色",2);
+	var dogobj = new Dog("大黄","黄色",1);
+	catobj.toString();
+	dogobj.toString();
+	catobj.attack(dogobj);
+
+	//catobj.kanjian();
+	catobj.pashu();
+	dogobj.kanjian();
+
+</script>
+</html>

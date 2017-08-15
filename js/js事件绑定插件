@@ -1,0 +1,35 @@
+﻿var EventUtils = {
+			//调用
+			trigger : function(element,type,eventName,params){
+				if(element[type]){
+					element[type]();
+				}else{
+					var e = document.createEvent(eventName);
+					e.initEvent(type, true, true);
+					for(var prop in params){
+						e[prop] = params[prop]; //调用的时候传进来自定义参数
+					}
+					element.dispatchEvent(e);
+				}
+			},
+			//添加
+			addListener : function(element,type,handler){
+				if(element.addEventListener){
+					element.addEventListener(type,handler);
+				}else if(element.attachEvent){
+					element.attachEvent("on" + type, handler);
+				}else{
+					element["on" + type] = handler;
+				}
+			},
+			//移除
+			removeListener : function(element,type,handler){
+				if(element.removeEventListener){
+					element.removeEventListener(type,handler);
+				}else if(element.detachEvent){
+					element.detachEvent("on" + type, handler);
+				}else{
+					element["on" + type] = undefined;
+				}
+			}
+		};

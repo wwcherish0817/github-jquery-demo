@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin: 0;padding: 0;}
+        body{position: relative;}
+        .div1{
+            width: 100px;border: 1px solid #000;height: 100px;
+            position: absolute;left: 0;
+            top: 0;text-align: center;line-height: 100px;font-size: 26px;}
+    </style>
+</head>
+<body>
+    <div class="div1" id="div1" style="top: 0;left: 0;;">拖动我</div>
+</body>
+<script>
+    (function(){
+        var div1 = document.getElementById("div1");
+        var left,top,isDown,mouseDownX,mouseDownY;
+        window.onload = function(){
+             left = parseInt(div1.style.left);
+             top = parseInt(div1.style.top);
+        }
+        div1.onmousedown =function(e){
+            isDown = true;
+            left = parseInt(div1.style.left);
+            top = parseInt(div1.style.top);
+            mouseDownX= e.clientX;
+            mouseDownY =  e.clientY;
+        }
+        div1.onmousemove = function(e){
+            if(isDown){
+                var nowClientX = e.clientX;
+                var nowClientY = e.clientY
+                div1.style.left = parseInt(left) + parseInt(nowClientX) - parseInt(mouseDownX) +"px";
+                div1.style.top = parseInt(top) + parseInt(nowClientY) - parseInt(mouseDownY)+"px";
+            }
+        }
+        div1.onmouseup= function(){
+            if(isDown){
+                isDown = false;
+            }
+
+        }
+
+    })();
+</script>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{
+            position: relative;overflow: hidden;;
+        }
+        #div1{
+            width: 500px;
+            height: 500px;
+            border: 1px solid #000;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            text-align: center;line-height: 500px;font-size: 30px;
+            border-radius: 500px;;
+        }
+    </style>
+</head>
+<body>
+    <div class="" id="div1">点我移动</div>
+    <script>
+        (function(){
+            var div1  = document.getElementById("div1");
+            var maxWidth = document.body.offsetWidth-div1.offsetWidth;
+            var maxHeight= document.documentElement.clientHeight-div1.offsetHeight;
+            var moveDivInterVal=null,initDiv1OffsetWidth,initDiv1OffsetHeight;
+            div1.onclick = function(){
+                if(moveDivInterVal!=null){
+                    return false;
+                }
+                initDiv1OffsetWidth = div1.offsetLeft;
+                initDiv1OffsetHeight = div1.offsetTop;
+                moveDivInterVal = setInterval(moveDiv,8);
+            };
+            var moveLeftStauts=1,moveTopStauts=1;
+            function moveDiv(){
+
+                initDiv1OffsetWidth += 2*moveLeftStauts;
+                div1.style.left = initDiv1OffsetWidth+"px";
+
+                initDiv1OffsetHeight +=2*moveTopStauts;
+                div1.style.top = initDiv1OffsetHeight+"px";
+                if( div1.offsetLeft>= maxWidth|| div1.offsetLeft<=0)
+                {
+                    moveLeftStauts =-moveLeftStauts;
+                }
+                if( div1.offsetTop>= maxHeight|| div1.offsetTop<=0)
+                {
+                    moveTopStauts =-moveTopStauts;
+                }
+
+            }
+        })();
+    </script>
+</body>
+</html>

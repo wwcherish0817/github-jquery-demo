@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        table{border-collapse:collapse;}
+        input{background-color: #ccc;border:1px solid red;}
+    </style>
+</head>
+<body>
+    <h1>请先运行node node_io.js才能看到效果</h1>
+    <table id="tabel" border="1" >
+
+    </table>
+</body>
+<script src="ajax.js"></script>
+<script>
+
+    var tabel = document.getElementById("tabel");
+    var localJsonData=[];
+    function creatTableTit(){
+        var tr = document.createElement("tr");
+        for(var i=0;i<6;i++){
+            var td = document.createElement("td");
+            var innerStr = "";
+            if(i == 0){
+                innerStr = "学号";
+            }
+            else if(i == 1){
+                innerStr = "姓名";
+            }
+            else if(i == 2){
+                innerStr = "年龄";
+            }
+            else if(i == 3){
+                innerStr = "性别";
+            }
+            else if(i == 4){
+                innerStr = "成绩";
+            }
+            else if(i == 5){
+                innerStr = "<span>操作</span>"+"<button onclick='writeJsonData()'>同步数据</button>";
+            }
+            td.innerHTML = innerStr;
+            tr.appendChild(td);
+        }
+        tabel.appendChild(tr);
+    }
+
+    function getJsonData(){
+        myAjax("http://localhost:3000/?getJson=io.json",function(myAjax){
+            var jsonData = JSON.parse(myAjax.responseText);
+            localJsonData =  jsonData;
+            createGetJsonDom(jsonData);
+
+        });
+    }
+
+    function createGetJsonDom(jsonData){
+        for(var i=0;i<jsonData.length;i++){
+            var createTr =  document.createElement("tr");
+            createTr.setAttribute("idx",jsonData[i]["idx"]);
+
+            var td1 = document.createElement("td");
+            td1.innerHTML = jsonData[i]["idx"];
+            createTr.appendChild(td1);
+
+            td1 = document.createElement("td");
+            var span = document.createElement("span");
+            span.innerHTML = jsonData[i]["name"];
+            span.className = "name_span"
+            td1.appendChild(span);
+            var input = document.createElement("input");
+            input.type = "text";
+            input.className = "name_input";
+            input.style.display = "none";
+            td1.appendChild(input);
+            createTr.appendChild(td1);
+
+            td1 = document.createElement("td");
+            span = document.createElement("span");
+            span.innerHTML = jsonData[i]["age"];
+            span.className = "age_span";
+            td1.appendChild(span);
+            input = document.createElement("input");
+            input.type = "text";
+            input.className = "age_input";
+            input.style.display = "none";
+            td1.appendChild(input);
+            createTr.appendChild(td1);
+
+            td1 = document.createElement("td");
+            //td1.innerHTML = jsonData[i]["sex"];
+            span = document.createElement("span");
+            span.innerHTML = jsonData[i]["sex"];
+            span.className = "sex_span";
+            td1.appendChild(span);
+            input = document.createElement("input");
+            input.type = "text";
+            input.className = "sex_input";
+            input.style.display = "none";
+            td1.appendChild(input);
+            createTr.appendChild(td1);
+
+            td1 = document.createElement("td");
+            td1.innerHTML = jsonData[i]["ach"];
+            createTr.appendChild(td1);
+
+            td1 = document.createElement("td");
+
+            var editBtn = document.createElement("button");
+            editBtn.value = jsonData[i]["idx"];
+            editBtn.innerHTML = "修改";
+            editBtn.setAttribute("status",0);//0-修改 1-保存
+            editBtn.addEventListener("click",function(){
+                editBtnFun(this);
+            })
+            td1.appendChild(editBtn);
+
+            editBtn = document.createElement("button");
+            editBtn.value = jsonData[i]["idx"];
+            editBtn.innerHTML = "删除";
+            editBtn.addEventListener("click",function(){
+                removeBtnFun(this);
+            })
+            td1.appendChild(editBtn);
+
+            createTr.appendChild(td1);
+
+            tabel.appendChild(createTr);
+        }
+        createLastAddTabelTr();
+    }
+    function createLastAddTabelTr(){
+        var tr = document.createElement("tr");
+        tr.setAttribute("fun","edit");
+        for(var i=0;i<6;i++){
+            var td = document.createElement("td");
+            if(i<5){
+                var input = document.createElement("input");
+                input.type="text";
+                var inputclassName= "";
+                if(i == 0){
+                    inputclassName = "idx_input";
+                }
+                else if(i == 1){
+                    inputclassName = "anme_input";
+                }
+                else if(i == 2){
+                    inputclassName = "age_input";
+                }
+                else if(i == 3){
+                    inputclassName = "sex_input";
+                }
+                else if(i == 4){
+                    inputclassName = "ach_input";
+                }
+
+                input.className = inputclassName;
+                td.appendChild(input);
+                if(i == 0){
+                    input.setAttribute("disabled",true);
+                    input.style.backgroundColor = "#fff";
+                }
+            }
+            else
+            {
+                var editBtn = document.createElement("button");
+                editBtn.innerHTML = "添加";
+                editBtn.addEventListener("click",function(){
+                    addJsonData(this);
+                })
+                td.appendChild(editBtn);
+            }
+
+
+            tr.appendChild(td);
+        }
+        tabel.appendChild(tr);
+    }
+    window.onload =function(){
+        tabel.innerHTML = "";
+        localJsonData=[];
+        creatTableTit();
+        getJsonData();
+    }
+
+    function removeBtnFun(dom){
+        for(var i in localJsonData){
+            if(localJsonData[i].idx == dom.value) {
+                localJsonData.splice(i, 1);
+                break;
+            }
+        }
+        //console.log(localJsonData);
+        tabel.innerHTML = "";
+        creatTableTit();
+        createGetJsonDom(localJsonData);
+    }
+    function editBtnFun(dom){
+        var status = dom.getAttribute("status");
+        if(status == 0){
+            //修改
+            dom.innerHTML = "保存";
+            dom.setAttribute("status",1);
+            var tabelChildTr = tabel.children;
+            for(var i=0;i<tabelChildTr.length;i++){
+                var tridx = tabelChildTr[i].getAttribute("idx");
+                if(tridx && tridx==dom.value){
+                    var trDom = tabelChildTr[i].children;
+                    for(var j=0;j< trDom.length;j++){
+                          var td = trDom[j];
+                          var inputArr =  td.getElementsByTagName("input");
+                            for(var x=0;x<inputArr.length;x++){
+                                var input = inputArr[x];
+                                input.value ="";
+                                input.style.display="inline-block";
+                            }
+                    }
+                }
+
+            }
+        }
+        else if(status == 1){
+            //保存
+            dom.innerHTML = "修改";
+            dom.setAttribute("status",0);
+
+            var tabelChildTr = tabel.children;
+            for(var i=0;i<tabelChildTr.length;i++){
+                var tridx = tabelChildTr[i].getAttribute("idx");
+                if(tridx && tridx==dom.value){
+                    var trDom = tabelChildTr[i].children;
+                    for(var j=0;j< trDom.length;j++){
+                        var td = trDom[j];
+                        var inputArr =  td.getElementsByTagName("input");
+                        for(var x=0;x<inputArr.length;x++){
+                            var input = inputArr[x];
+                            var parenttd=input.parentNode;
+                            var showSpan = parenttd.getElementsByTagName("span")[0];
+                            if(input.value!=""){
+                                showSpan.innerHTML =   input.value;
+                                editLocalJsonData(dom.value,input.className,input.value);
+                                input.value ="";
+                            }
+                            input.style.display="none";
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+    function editLocalJsonData(idx,inputType,value){
+        var editSx = "";
+        if(inputType == "name_input"){
+            inputType = "name";
+        }
+        else if(inputType == "age_input")
+        {
+            inputType = "age";
+        }
+        else if(inputType == "sex_input")
+        {
+            inputType = "sex";
+        }
+
+        for(var i in localJsonData)
+        {
+            if(localJsonData[i].idx == idx){
+                localJsonData[i][inputType] = value;
+            }
+        }
+    }
+
+    function addJsonData(dom){
+        var editTr=dom.parentNode.parentNode;
+        var allInput =  editTr.getElementsByTagName("input");
+        var nameInputValue =  allInput[1].value;
+        if(nameInputValue==""){alert("请输入名字");return false};
+        var ageInputValue =  allInput[2].value;
+        if(ageInputValue==""){alert("请输入年龄");return false};
+        var sexInputValue =  allInput[3].value;
+        if(sexInputValue==""){alert("请输入性别");return false};
+        var cahInputValue =  allInput[4].value;
+        if(cahInputValue==""){alert("请输入成绩");return false};
+        var idx =   localJsonData.length+1;
+
+        //{"idx":5,"name":"a5","age":13,"sex":0,"ach":98}
+
+        var obj ={
+            "idx":idx,"name":nameInputValue,"age":ageInputValue,"sex":sexInputValue,"ach":cahInputValue
+        };
+        localJsonData.push(obj);
+        tabel.innerHTML = "";
+        creatTableTit();
+        createGetJsonDom(localJsonData);
+    }
+    function writeJsonData(){
+          var jsonStr = JSON.stringify(localJsonData);
+
+            myAjax("http://localhost:3000/?wrteJson="+jsonStr+"&toFile=io.json",function(myAjax){
+                if(myAjax.responseText == "SUCESS"){
+                         alert("数据同步成功");
+                }
+                else
+                {
+                    alert("数据同步失败");
+                }
+            });
+    }
+</script>
+</html>

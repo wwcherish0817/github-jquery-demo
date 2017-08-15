@@ -1,0 +1,37 @@
+@charset "utf-8";
+body { font:12px/1.5 微软雅黑, SimHei, Microsoft YaHei, Arial, sans-serif; color:#515151; overflow-x:hidden;background:#FFF;}
+html,body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, a, del, input, textarea, select, img, dl, dt, dd, ol, ul, li, dfn, em, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, big, font, small, strong, b, center , button { margin: 0; padding: 0 }
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, mark, audio, video { display: block; margin: 0; padding: 0 }
+h1, h2, h3, h4, h5, h6, button, input, select, textarea { font-size: 100% }
+address, cite, dfn, em, var { font-style: normal }
+fieldset, img ,input,a{ border: 0 }
+li { list-style: none }
+table { border-collapse: collapse; border-spacing: 0 }
+a{text-decoration:none;}
+.clear{display:block!important;clear:both;float:none!important;width:auto!important;height:0!important;overflow:hidden;margin:0 auto!important;padding:0!important;font-size:0;line-height:0;height:0px;}
+.floatl{float:left;}
+.floatr{float:right;}
+
+.startBtn{width:300px;height:50px;line-height: 50px;
+    text-align: center;border:1px solid #ccc;display: block;
+    margin: 20px auto;font-size: 30px;}
+#showpai{border-bottom: 5px solid #000;}
+.ResultInner{height: 200px;width: 100%;border-bottom: 1px solid #000000;border-top: 1px solid #000000;}
+.ResultInner #myResult{width: 49%;border-right: 1px solid #000000;height: 100%;}
+.ResultInner #otherResult{width: 49%;border-left: 1px solid #000000;height: 100%;}
+.ResultInner{text-align: center;font-size: 22px;}
+.paiInner{width: 50px;height: 100px;border:1px solid red;overflow: hidden;text-align: center;}
+.paiInner .type{font-size: 16px;}
+.paiInner .num{font-size: 20px;margin-top: 30px;}
+.ResultInner .paiInner{
+    margin: 10px auto 0;}
+#showpai .paiInner{float: left;}
+.desInfo{width: 100%;text-align: center;padding: 10px 0;}
+.desInfo p{font-size: 24px;color: aqua;}
+.desInfo button{padding: 0 15px;}
+
+table td{text-align: center;padding: 10px 5px;}
+table td span,table td button{
+    margin: 0 10px;}
+.selectdataInput{border: 1px solid #000000;display: block;
+    margin-top: 50px;margin-left: 50px;}
